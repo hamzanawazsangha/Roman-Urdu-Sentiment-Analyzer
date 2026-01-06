@@ -28,7 +28,7 @@ A professional Flask web application for analyzing sentiments in Roman Urdu text
 
 1. **Clone or navigate to the project directory:**
 ```bash
-cd "C:\Users\Muhammad Adnan\Desktop\Roman Urdu Sentiment"
+cd "C:\Users\Muhammad Hamza Nawaz\Desktop\Roman Urdu Sentiment"
 ```
 
 2. **Install required packages:**
@@ -285,5 +285,3 @@ Muhammad Hamza Nawaz
 ## 📞 Support
 
 For issues or questions, please check the documentation page within the application for comprehensive information about the system.
-
-
