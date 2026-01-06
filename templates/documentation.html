@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - Roman Urdu Sentiment Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-comments"></i>
+                <span>Roman Urdu Sentiment Analyzer</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/prediction">Prediction</a></li>
+                <li><a href="/documentation" class="active">Documentation</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Documentation Header -->
+    <section class="doc-header">
+        <div class="container">
+            <h1><i class="fas fa-book"></i> Complete Documentation</h1>
+            <p>Comprehensive guide to the Roman Urdu Sentiment Analysis System</p>
+        </div>
+    </section>
+
+    <!-- Table of Contents -->
+    <section class="toc-section">
+        <div class="container">
+            <div class="toc-card">
+                <h2><i class="fas fa-list"></i> Table of Contents</h2>
+                <ul class="toc-list">
+                    <li><a href="#introduction"><i class="fas fa-chevron-right"></i> Introduction</a></li>
+                    <li><a href="#problem-statement"><i class="fas fa-chevron-right"></i> Problem Statement</a></li>
+                    <li><a href="#solution"><i class="fas fa-chevron-right"></i> Solution Approach</a></li>
+                    <li><a href="#dataset"><i class="fas fa-chevron-right"></i> Dataset Information</a></li>
+                    <li><a href="#preprocessing"><i class="fas fa-chevron-right"></i> Data Preprocessing</a></li>
+                    <li><a href="#models"><i class="fas fa-chevron-right"></i> Models Trained</a></li>
+                    <li><a href="#accuracy"><i class="fas fa-chevron-right"></i> Model Accuracy Comparison</a></li>
+                    <li><a href="#confusion-matrices"><i class="fas fa-chevron-right"></i> Confusion Matrices</a></li>
+                    <li><a href="#classification-reports"><i class="fas fa-chevron-right"></i> Classification Reports</a></li>
+                    <li><a href="#best-model"><i class="fas fa-chevron-right"></i> Best Model</a></li>
+                    <li><a href="#conclusions"><i class="fas fa-chevron-right"></i> Conclusions</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Introduction -->
+    <section id="introduction" class="doc-section">
+        <div class="container">
+            <h2 class="doc-title"><i class="fas fa-info-circle"></i> Introduction</h2>
+            <div class="doc-content">
+                <p>
+                    The Roman Urdu Sentiment Analysis System is a comprehensive machine learning solution designed to 
+                    automatically detect and classify sentiments in Roman Urdu text. Roman Urdu is the Urdu language 
+                    written in the Latin script, widely used in social media, messaging apps, and online communication 
+                    in Pakistan and among Urdu-speaking communities worldwide.
+                </p>
+                <p>
+                    This system leverages multiple state-of-the-art machine learning algorithms to analyze text and 
+                    classify it into three sentiment categories: Positive, Negative, and Neutral. The models are trained 
+                    on a large dataset of labeled Roman Urdu sentences, ensuring accurate sentiment detection across 
+                    various contexts and expressions.
+                </p>
+                <div class="highlight-box">
+                    <h4><i class="fas fa-star"></i> Key Features</h4>
+                    <ul>
+                        <li>Multi-model approach with 6 different ML algorithms</li>
+                        <li>Real-time sentiment prediction with confidence scores</li>
+                        <li>Comprehensive preprocessing and text cleaning pipeline</li>
+                        <li>TF-IDF based feature extraction with n-gram analysis</li>
+                        <li>Class balancing using computed class weights</li>
+                        <li>Extensive evaluation with confusion matrices and classification reports</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Statement -->
+    <section id="problem-statement" class="doc-section">
+        <div class="container">
+            <h2 class="doc-title"><i class="fas fa-exclamation-circle"></i> Problem Statement</h2>
+            <div class="doc-content">
+                <p>
+                    Sentiment analysis is a crucial task in natural language processing with applications in social media 
+                    monitoring, customer feedback analysis, brand reputation management, and market research. However, 
+                    sentiment analysis for Roman Urdu presents unique challenges:
+                </p>
+                <div class="problem-grid">
+                    <div class="problem-card">
+                        <h4><i class="fas fa-language"></i> Linguistic Challenges</h4>
+                        <p>Roman Urdu lacks standardized spelling conventions, making text inconsistent and difficult to process.</p>
+                    </div>
+                    <div class="problem-card">
+                        <h4><i class="fas fa-code"></i> Code-Mixing</h4>
+                        <p>Users frequently mix English and Urdu words, creating complex linguistic patterns.</p>
+                    </div>
+                    <div class="problem-card">
+                        <h4><i class="fas fa-comment-dots"></i> Informal Language</h4>
+                        <p>Social media text contains slang, abbreviations, and informal expressions.</p>
+                    </div>
+                    <div class="problem-card">
+                        <h4><i class="fas fa-database"></i> Limited Resources</h4>
+                        <p>Fewer labeled datasets and NLP tools available compared to major languages.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Approach -->
+    <section id="solution" class="doc-section">
+        <div class="container">
+            <h2 class="doc-title"><i class="fas fa-lightbulb"></i> Solution Approach</h2>
+            <div class="doc-content">
+                <p>
+                    Our solution employs a comprehensive machine learning pipeline that addresses the challenges of 
+                    Roman Urdu sentiment analysis through the following approach:
+                </p>
+                <div class="solution-steps">
+                    <div class="solution-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Data Collection & Preparation</h4>
+                            <p>Utilizing the Roman Urdu Tagged Dataset with pre-labeled sentiments for training and evaluation.</p>
+                        </div>
+                    </div>
+                    <div class="solution-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Text Preprocessing</h4>
+                            <p>Comprehensive cleaning including lowercase conversion, URL removal, special character elimination, and whitespace normalization.</p>
+                        </div>
+                    </div>
+                    <div class="solution-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Feature Engineering</h4>
+                            <p>TF-IDF vectorization with 1-3 gram analysis, maximum 40,000 features, and frequency-based filtering.</p>
+                        </div>
+                    </div>
+                    <div class="solution-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Model Training & Optimization</h4>
+                            <p>Training multiple ML algorithms with GridSearchCV for hyperparameter tuning and class weight balancing.</p>
+                        </div>
+                    </div>
+                    <div class="solution-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Evaluation & Selection</h4>
+                            <p>Comprehensive evaluation using accuracy, confusion matrices, and classification reports to select the best model.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dataset Information -->
+    <section id="dataset" class="doc-section">
+        <div class="container">
+            <h2 class="doc-title"><i class="fas fa-database"></i> Dataset Information</h2>
+            <div class="doc-content">
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h4>Dataset Name</h4>
+                        <p>Roman Urdu Tagged Dataset</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>Classes</h4>
+                        <p>3 (Positive, Negative, Neutral)</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>Train-Test Split</h4>
+                        <p>75% Training, 25% Testing</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>Stratified Split</h4>
+                        <p>Yes (Maintains class distribution)</p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <h4><i class="fas fa-balance-scale"></i> Class Distribution & Weights</h4>
+                    <p>To handle class imbalance, computed class weights are applied during training:</p>
+                    <ul>
+                        <li><strong>Negative:</strong> Weight = 1.54 (Less frequent, higher weight)</li>
+                        <li><strong>Neutral:</strong> Weight = 0.63 (Most frequent, lower weight)</li>
+                        <li><strong>Positive:</strong> Weight = 1.30 (Moderate frequency)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Preprocessing -->
+    <section id="preprocessing" class="doc-section">
+        <div class="container">
+            <h2 class="doc-title"><i class="fas fa-cogs"></i> Data Preprocessing</h2>
+            <div class="doc-content">
+                <h4><i class="fas fa-broom"></i> Text Cleaning Pipeline</h4>
+                <div class="code-block">
+                    <pre><code>def clean_text(text):
+    # Convert to lowercase
+    text = text.lower()
+    
+    # Remove URLs
+    text = re.sub(r"http\S+|www\S+", "", text)
+    
+    # Remove special characters (keep only alphabets and spaces)
+    text = re.sub(r"[^a-zA-Z\s]", "", text)
+    
+    # Remove extra whitespace
+    text = re.sub(r"\s+", " ", text).strip()
+    
+    return text</code></pre>
+                </div>
+
+                <h4 style="margin-top: 2rem;"><i class="fas fa-vector-square"></i> Feature Extraction: TF-IDF</h4>
+                <p>
+                    TF-IDF (Term Frequency-Inverse Document Frequency) vectorization converts text into numerical features 
+                    that machine learning models can process. Our configuration includes:
+                </p>
+                <ul>
+                    <li><strong>N-gram Range:</strong> (1, 3) - Captures unigrams, bigrams, and trigrams</li>
+                    <li><strong>Max Features:</strong> 40,000 - Top 40,000 most important features</li>
+                    <li><strong>Min DF:</strong> 3 - Terms must appear in at least 3 documents</li>
+                    <li><strong>Max DF:</strong> 0.9 - Ignore terms appearing in more than 90% of documents</li>
+                    <li><strong>Sublinear TF:</strong> True - Apply logarithmic scaling to term frequencies</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Models Trained -->
+    <section id="models" class="doc-section">
+        <div class="container">
+            <h2 class="doc-title"><i class="fas fa-robot"></i> Models Trained</h2>
+            <div class="doc-content">
+                <div class="models-comparison">
+                    {% for model_name in model_names %}
+                    <div class="model-detail-card {% if model_name == metadata.best_model %}best{% endif %}">
+                        <h3>
+                            {{ model_name }}
+                            {% if model_name == metadata.best_model %}
+                            <span class="best-badge">Best Model</span>
+                            {% endif %}
+                        </h3>
+                        <div class="model-accuracy">
+                            <span class="accuracy-value">{{ "%.2f"|format(metadata.all_results[model_name] * 100) }}%</span>
+                            <span class="accuracy-label">Accuracy</span>
+                        </div>
+                        <div class="model-description">
+                            {% if model_name == "Logistic Regression" %}
+                            <p>Linear classification model with regularization. Hyperparameters tuned: C (0.1, 1, 10)</p>
+                            {% elif model_name == "SVM" %}
+                            <p>Support Vector Machine with linear kernel. Hyperparameters tuned: C (0.1, 1, 10)</p>
+                            {% elif model_name == "Naive Bayes" %}
+                            <p>Probabilistic classifier based on Bayes' theorem. Hyperparameters tuned: alpha (0.5, 1.0, 1.5)</p>
+                            {% elif model_name == "Decision Tree" %}
+                            <p>Tree-based classifier with decision rules. Hyperparameters tuned: max_depth (None, 10, 20)</p>
+                            {% elif model_name == "Random Forest" %}
+                            <p>Ensemble of decision trees. Hyperparameters tuned: n_estimators (100, 200)</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Model Accuracy Comparison -->
+    <section id="accuracy" class="doc-section">
+        <div class="container">
+            <h2 class="doc-title"><i class="fas fa-chart-bar"></i> Model Accuracy Comparison</h2>
+            <div class="doc-content">
+                <div class="chart-container">
+                    <canvas id="accuracyChart"></canvas>
+                </div>
+                <div class="accuracy-analysis">
+                    <h4><i class="fas fa-trophy"></i> Performance Analysis</h4>
+                    <ul>
+                        <li><strong>Top Performers:</strong> SVM (74.40%) and Logistic Regression (73.82%) achieved the highest accuracy</li>
+                        <li><strong>Ensemble Method:</strong> Random Forest performed well at 71.81% accuracy</li>
+                        <li><strong>Probabilistic Approach:</strong> Naive Bayes achieved 72.58% accuracy</li>
+                        <li><strong>Decision Tree:</strong> Achieved 64.98% accuracy with interpretable decision rules</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Confusion Matrices -->
+    <section id="confusion-matrices" class="doc-section">
+        <div class="container">
+            <h2 class="doc-title"><i class="fas fa-th"></i> Confusion Matrices</h2>
+            <div class="doc-content">
+                <p>Confusion matrices show how each model performs in classifying different sentiment categories. Rows represent actual classes, columns represent predicted classes. Diagonal values (highlighted) show correct predictions.</p>
+                
+                <div class="matrices-grid">
+                    <!-- Logistic Regression -->
+                    <div class="matrix-card">
+                        <h3>Logistic Regression</h3>
+                        <div class="confusion-matrix-table">
+                            <table class="cm-table">
+                                <thead>
+                                    <tr>
+                                        <th class="cm-corner">Predicted →<br>Actual ↓</th>
+                                        <th class="cm-header">Negative</th>
+                                        <th class="cm-header">Neutral</th>
+                                        <th class="cm-header">Positive</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th class="cm-row-header">Negative</th>
+                                        <td class="cm-correct">819</td>
+                                        <td class="cm-incorrect">221</td>
+                                        <td class="cm-incorrect">147</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="cm-row-header">Neutral</th>
+                                        <td class="cm-incorrect">303</td>
+                                        <td class="cm-correct">2133</td>
+                                        <td class="cm-incorrect">454</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="cm-row-header">Positive</th>
+                                        <td class="cm-incorrect">112</td>
+                                        <td class="cm-incorrect">207</td>
+                                        <td class="cm-correct">1089</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- SVM -->
+                    <div class="matrix-card">
+                        <h3>SVM <span class="best-badge">Best</span></h3>
+                        <div class="confusion-matrix-table">
+                            <table class="cm-table">
+                                <thead>
+                                    <tr>
+                                        <th class="cm-corner">Predicted →<br>Actual ↓</th>
+                                        <th class="cm-header">Negative</th>
+                                        <th class="cm-header">Neutral</th>
+                                        <th class="cm-header">Positive</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th class="cm-row-header">Negative</th>
+                                        <td class="cm-correct">719</td>
+                                        <td class="cm-incorrect">281</td>
+                                        <td class="cm-incorrect">187</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="cm-row-header">Neutral</th>
+                                        <td class="cm-incorrect">226</td>
+                                        <td class="cm-correct">2326</td>
+                                        <td class="cm-incorrect">338</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="cm-row-header">Positive</th>
+                                        <td class="cm-incorrect">130</td>
+                                        <td class="cm-incorrect">241</td>
+                                        <td class="cm-correct">1037</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Naive Bayes -->
+                    <div class="matrix-card">
+                        <h3>Naive Bayes</h3>
+                        <div class="confusion-matrix-table">
+                            <table class="cm-table">
+                                <thead>
+                                    <tr>
+                                        <th class="cm-corner">Predicted →<br>Actual ↓</th>
+                                        <th class="cm-header">Negative</th>
+                                        <th class="cm-header">Neutral</th>
+                                        <th class="cm-header">Positive</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th class="cm-row-header">Negative</th>
+                                        <td class="cm-correct">456</td>
+                                        <td class="cm-incorrect">439</td>
+                                        <td class="cm-incorrect">292</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="cm-row-header">Neutral</th>
+                                        <td class="cm-incorrect">118</td>
+                                        <td class="cm-correct">2596</td>
+                                        <td class="cm-incorrect">176</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="cm-row-header">Positive</th>
+                                        <td class="cm-incorrect">168</td>
+                                        <td class="cm-incorrect">311</td>
+                                        <td class="cm-correct">929</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Decision Tree -->
+                    <div class="matrix-card">
+                        <h3>Decision Tree</h3>
+                        <div class="confusion-matrix-table">
+                            <table class="cm-table">
+                                <thead>
+                                    <tr>
+                                        <th class="cm-corner">Predicted →<br>Actual ↓</th>
+                                        <th class="cm-header">Negative</th>
+                                        <th class="cm-header">Neutral</th>
+                                        <th class="cm-header">Positive</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th class="cm-row-header">Negative</th>
+                                        <td class="cm-correct">434</td>
+                                        <td class="cm-incorrect">452</td>
+                                        <td class="cm-incorrect">301</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="cm-row-header">Neutral</th>
+                                        <td class="cm-incorrect">154</td>
+                                        <td class="cm-correct">2506</td>
+                                        <td class="cm-incorrect">230</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="cm-row-header">Positive</th>
+                                        <td class="cm-incorrect">275</td>
+                                        <td class="cm-incorrect">510</td>
+                                        <td class="cm-correct">623</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Random Forest -->
+                    <div class="matrix-card">
+                        <h3>Random Forest</h3>
+                        <div class="confusion-matrix-table">
+                            <table class="cm-table">
+                                <thead>
+                                    <tr>
+                                        <th class="cm-corner">Predicted →<br>Actual ↓</th>
+                                        <th class="cm-header">Negative</th>
+                                        <th class="cm-header">Neutral</th>
+                                        <th class="cm-header">Positive</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th class="cm-row-header">Negative</th>
+                                        <td class="cm-correct">563</td>
+                                        <td class="cm-incorrect">374</td>
+                                        <td class="cm-incorrect">250</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="cm-row-header">Neutral</th>
+                                        <td class="cm-incorrect">164</td>
+                                        <td class="cm-correct">2480</td>
+                                        <td class="cm-incorrect">246</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="cm-row-header">Positive</th>
+                                        <td class="cm-incorrect">176</td>
+                                        <td class="cm-incorrect">327</td>
+                                        <td class="cm-correct">905</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cm-legend">
+                    <h4><i class="fas fa-info-circle"></i> Understanding the Confusion Matrix</h4>
+                    <ul>
+                        <li><strong>Diagonal cells (green):</strong> Correct predictions - the model correctly identified the sentiment</li>
+                        <li><strong>Off-diagonal cells (light):</strong> Misclassifications - the model predicted the wrong sentiment</li>
+                        <li><strong>Example:</strong> In the SVM matrix, 719 negative sentiments were correctly identified, while 281 were incorrectly predicted as neutral</li>
+                        <li><strong>Higher diagonal values</strong> indicate better performance</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Classification Reports -->
+    <section id="classification-reports" class="doc-section">
+        <div class="container">
+            <h2 class="doc-title"><i class="fas fa-file-alt"></i> Classification Reports</h2>
+            <div class="doc-content">
+                <p>Detailed performance metrics for each model including precision, recall, and F1-score for each sentiment class:</p>
+                
+                <div class="metrics-explanation">
+                    <div class="metric-box">
+                        <h4><i class="fas fa-crosshairs"></i> Precision</h4>
+                        <p>Of all predictions for a class, how many were correct? (TP / (TP + FP))</p>
+                    </div>
+                    <div class="metric-box">
+                        <h4><i class="fas fa-search"></i> Recall</h4>
+                        <p>Of all actual instances of a class, how many were found? (TP / (TP + FN))</p>
+                    </div>
+                    <div class="metric-box">
+                        <h4><i class="fas fa-balance-scale"></i> F1-Score</h4>
+                        <p>Harmonic mean of precision and recall (2 × (Precision × Recall) / (Precision + Recall))</p>
+                    </div>
+                </div>
+
+                <!-- Logistic Regression -->
+                <div class="report-section">
+                    <h3><i class="fas fa-chart-line"></i> Logistic Regression</h3>
+                    <div class="classification-report-container">
+                        <table class="classification-table">
+                            <thead>
+                                <tr>
+                                    <th class="class-col">Class</th>
+                                    <th class="metric-col">Precision</th>
+                                    <th class="metric-col">Recall</th>
+                                    <th class="metric-col">F1-Score</th>
+                                    <th class="support-col">Support</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="class-row">
+                                    <td class="class-name negative-class">Negative</td>
+                                    <td>0.594</td>
+                                    <td>0.690</td>
+                                    <td>0.639</td>
+                                    <td>1187</td>
+                                </tr>
+                                <tr class="class-row">
+                                    <td class="class-name neutral-class">Neutral</td>
+                                    <td>0.819</td>
+                                    <td>0.738</td>
+                                    <td>0.777</td>
+                                    <td>2890</td>
+                                </tr>
+                                <tr class="class-row">
+                                    <td class="class-name positive-class">Positive</td>
+                                    <td>0.724</td>
+                                    <td>0.773</td>
+                                    <td>0.748</td>
+                                    <td>1408</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="avg-row">
+                                    <td class="class-name">Accuracy</td>
+                                    <td colspan="3" class="accuracy-cell">0.737 (73.7%)</td>
+                                    <td>5485</td>
+                                </tr>
+                                <tr class="avg-row">
+                                    <td class="class-name">Macro Avg</td>
+                                    <td>0.713</td>
+                                    <td>0.734</td>
+                                    <td>0.721</td>
+                                    <td>5485</td>
+                                </tr>
+                                <tr class="avg-row">
+                                    <td class="class-name">Weighted Avg</td>
+                                    <td>0.746</td>
+                                    <td>0.737</td>
+                                    <td>0.739</td>
+                                    <td>5485</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SVM -->
+                <div class="report-section">
+                    <h3><i class="fas fa-vector-square"></i> SVM <span class="best-badge">Best Model</span></h3>
+                    <div class="classification-report-container">
+                        <table class="classification-table">
+                            <thead>
+                                <tr>
+                                    <th class="class-col">Class</th>
+                                    <th class="metric-col">Precision</th>
+                                    <th class="metric-col">Recall</th>
+                                    <th class="metric-col">F1-Score</th>
+                                    <th class="support-col">Support</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="class-row">
+                                    <td class="class-name negative-class">Negative</td>
+                                    <td>0.644</td>
+                                    <td>0.606</td>
+                                    <td>0.624</td>
+                                    <td>1187</td>
+                                </tr>
+                                <tr class="class-row">
+                                    <td class="class-name neutral-class">Neutral</td>
+                                    <td>0.779</td>
+                                    <td>0.805</td>
+                                    <td>0.792</td>
+                                    <td>2890</td>
+                                </tr>
+                                <tr class="class-row">
+                                    <td class="class-name positive-class">Positive</td>
+                                    <td>0.750</td>
+                                    <td>0.737</td>
+                                    <td>0.743</td>
+                                    <td>1408</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="avg-row">
+                                    <td class="class-name">Accuracy</td>
+                                    <td colspan="3" class="accuracy-cell">0.744 (74.4%)</td>
+                                    <td>5485</td>
+                                </tr>
+                                <tr class="avg-row">
+                                    <td class="class-name">Macro Avg</td>
+                                    <td>0.724</td>
+                                    <td>0.716</td>
+                                    <td>0.720</td>
+                                    <td>5485</td>
+                                </tr>
+                                <tr class="avg-row">
+                                    <td class="class-name">Weighted Avg</td>
+                                    <td>0.742</td>
+                                    <td>0.744</td>
+                                    <td>0.743</td>
+                                    <td>5485</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Naive Bayes -->
+                <div class="report-section">
+                    <h3><i class="fas fa-calculator"></i> Naive Bayes</h3>
+                    <div class="classification-report-container">
+                        <table class="classification-table">
+                            <thead>
+                                <tr>
+                                    <th class="class-col">Class</th>
+                                    <th class="metric-col">Precision</th>
+                                    <th class="metric-col">Recall</th>
+                                    <th class="metric-col">F1-Score</th>
+                                    <th class="support-col">Support</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="class-row">
+                                    <td class="class-name negative-class">Negative</td>
+                                    <td>0.741</td>
+                                    <td>0.384</td>
+                                    <td>0.506</td>
+                                    <td>1187</td>
+                                </tr>
+                                <tr class="class-row">
+                                    <td class="class-name neutral-class">Neutral</td>
+                                    <td>0.707</td>
+                                    <td>0.898</td>
+                                    <td>0.791</td>
+                                    <td>2890</td>
+                                </tr>
+                                <tr class="class-row">
+                                    <td class="class-name positive-class">Positive</td>
+                                    <td>0.777</td>
+                                    <td>0.660</td>
+                                    <td>0.714</td>
+                                    <td>1408</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="avg-row">
+                                    <td class="class-name">Accuracy</td>
+                                    <td colspan="3" class="accuracy-cell">0.726 (72.6%)</td>
+                                    <td>5485</td>
+                                </tr>
+                                <tr class="avg-row">
+                                    <td class="class-name">Macro Avg</td>
+                                    <td>0.742</td>
+                                    <td>0.647</td>
+                                    <td>0.670</td>
+                                    <td>5485</td>
+                                </tr>
+                                <tr class="avg-row">
+                                    <td class="class-name">Weighted Avg</td>
+                                    <td>0.732</td>
+                                    <td>0.726</td>
+                                    <td>0.709</td>
+                                    <td>5485</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Decision Tree -->
+                <div class="report-section">
+                    <h3><i class="fas fa-project-diagram"></i> Decision Tree</h3>
+                    <div class="classification-report-container">
+                        <table class="classification-table">
+                            <thead>
+                                <tr>
+                                    <th class="class-col">Class</th>
+                                    <th class="metric-col">Precision</th>
+                                    <th class="metric-col">Recall</th>
+                                    <th class="metric-col">F1-Score</th>
+                                    <th class="support-col">Support</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="class-row">
+                                    <td class="class-name negative-class">Negative</td>
+                                    <td>0.616</td>
+                                    <td>0.366</td>
+                                    <td>0.459</td>
+                                    <td>1187</td>
+                                </tr>
+                                <tr class="class-row">
+                                    <td class="class-name neutral-class">Neutral</td>
+                                    <td>0.644</td>
+                                    <td>0.867</td>
+                                    <td>0.739</td>
+                                    <td>2890</td>
+                                </tr>
+                                <tr class="class-row">
+                                    <td class="class-name positive-class">Positive</td>
+                                    <td>0.701</td>
+                                    <td>0.442</td>
+                                    <td>0.542</td>
+                                    <td>1408</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="avg-row">
+                                    <td class="class-name">Accuracy</td>
+                                    <td colspan="3" class="accuracy-cell">0.650 (65.0%)</td>
+                                    <td>5485</td>
+                                </tr>
+                                <tr class="avg-row">
+                                    <td class="class-name">Macro Avg</td>
+                                    <td>0.654</td>
+                                    <td>0.558</td>
+                                    <td>0.580</td>
+                                    <td>5485</td>
+                                </tr>
+                                <tr class="avg-row">
+                                    <td class="class-name">Weighted Avg</td>
+                                    <td>0.653</td>
+                                    <td>0.650</td>
+                                    <td>0.628</td>
+                                    <td>5485</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Random Forest -->
+                <div class="report-section">
+                    <h3><i class="fas fa-tree"></i> Random Forest</h3>
+                    <div class="classification-report-container">
+                        <table class="classification-table">
+                            <thead>
+                                <tr>
+                                    <th class="class-col">Class</th>
+                                    <th class="metric-col">Precision</th>
+                                    <th class="metric-col">Recall</th>
+                                    <th class="metric-col">F1-Score</th>
+                                    <th class="support-col">Support</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="class-row">
+                                    <td class="class-name negative-class">Negative</td>
+                                    <td>0.664</td>
+                                    <td>0.474</td>
+                                    <td>0.553</td>
+                                    <td>1187</td>
+                                </tr>
+                                <tr class="class-row">
+                                    <td class="class-name neutral-class">Neutral</td>
+                                    <td>0.718</td>
+                                    <td>0.858</td>
+                                    <td>0.782</td>
+                                    <td>2890</td>
+                                </tr>
+                                <tr class="class-row">
+                                    <td class="class-name positive-class">Positive</td>
+                                    <td>0.765</td>
+                                    <td>0.643</td>
+                                    <td>0.699</td>
+                                    <td>1408</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="avg-row">
+                                    <td class="class-name">Accuracy</td>
+                                    <td colspan="3" class="accuracy-cell">0.720 (72.0%)</td>
+                                    <td>5485</td>
+                                </tr>
+                                <tr class="avg-row">
+                                    <td class="class-name">Macro Avg</td>
+                                    <td>0.716</td>
+                                    <td>0.658</td>
+                                    <td>0.678</td>
+                                    <td>5485</td>
+                                </tr>
+                                <tr class="avg-row">
+                                    <td class="class-name">Weighted Avg</td>
+                                    <td>0.718</td>
+                                    <td>0.720</td>
+                                    <td>0.711</td>
+                                    <td>5485</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="report-insights">
+                    <h4><i class="fas fa-lightbulb"></i> Key Insights</h4>
+                    <ul>
+                        <li><strong>SVM (Best Model):</strong> Achieves the best balance across all metrics with 74.4% accuracy</li>
+                        <li><strong>Neutral Class:</strong> All models perform best on Neutral sentiment due to higher support (2890 samples)</li>
+                        <li><strong>Negative Class Challenge:</strong> Most models struggle with Negative sentiment, likely due to lower support (1187 samples)</li>
+                        <li><strong>Naive Bayes Trade-off:</strong> Excellent recall for Neutral (0.898) but poor recall for Negative (0.384)</li>
+                        <li><strong>Weighted Average:</strong> Accounts for class imbalance, providing a more realistic performance measure</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Model -->
+    <section id="best-model" class="doc-section">
+        <div class="container">
+            <h2 class="doc-title"><i class="fas fa-crown"></i> Best Model</h2>
+            <div class="doc-content">
+                <div class="best-model-highlight">
+                    <div class="best-model-header">
+                        <i class="fas fa-trophy"></i>
+                        <h3>{{ metadata.best_model }}</h3>
+                        <span class="accuracy-badge">{{ "%.2f"|format(metadata.accuracy * 100) }}% Accuracy</span>
+                    </div>
+                    <div class="best-model-details">
+                        <h4>Why {{ metadata.best_model }} Performs Best:</h4>
+                        <ul>
+                            {% if metadata.best_model == "SVM" %}
+                            <li><strong>High-dimensional data handling:</strong> SVM excels with the 40,000 TF-IDF features</li>
+                            <li><strong>Margin maximization:</strong> Finds optimal decision boundaries between sentiment classes</li>
+                            <li><strong>Robust to overfitting:</strong> Regularization prevents overfitting on training data</li>
+                            <li><strong>Effective with class imbalance:</strong> Class weights help handle unbalanced dataset</li>
+                            <li><strong>Kernel flexibility:</strong> Linear kernel works well for text classification tasks</li>
+                            {% elif metadata.best_model == "Logistic Regression" %}
+                            <li><strong>Simple yet effective:</strong> Works well with high-dimensional sparse features</li>
+                            <li><strong>Probabilistic output:</strong> Provides confidence scores for predictions</li>
+                            <li><strong>Fast training:</strong> Efficient on large datasets</li>
+                            <li><strong>Regularization:</strong> L2 regularization prevents overfitting</li>
+                            {% elif metadata.best_model == "Random Forest" %}
+                            <li><strong>Ensemble learning:</strong> Combines multiple decision trees for better accuracy</li>
+                            <li><strong>Feature importance:</strong> Identifies most important n-grams</li>
+                            <li><strong>Handles non-linearity:</strong> Captures complex patterns in data</li>
+                            <li><strong>Reduces overfitting:</strong> Averaging reduces variance</li>
+                            {% endif %}
+                        </ul>
+                        <!-- <div class="deployment-info">
+                            <h4><i class="fas fa-rocket"></i> Deployment</h4>
+                            <p>
+                                This model is saved and deployed in the prediction system. When you make predictions 
+                                through the web interface, you can select any model, but {{ metadata.best_model }} is 
+                                recommended for optimal performance.
+                            </p>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusions -->
+    <section id="conclusions" class="doc-section">
+        <div class="container">
+            <h2 class="doc-title"><i class="fas fa-check-circle"></i> Conclusions</h2>
+            <div class="doc-content">
+                <div class="conclusions-grid">
+                    <div class="conclusion-card">
+                        <h4><i class="fas fa-star"></i> Key Achievements</h4>
+                        <ul>
+                            <li>Successfully trained 6 different ML models for Roman Urdu sentiment analysis</li>
+                            <li>Achieved {{ "%.2f"|format(metadata.accuracy * 100) }}% accuracy with the best model ({{ metadata.best_model }})</li>
+                            <li>Implemented comprehensive preprocessing and feature extraction pipeline</li>
+                            <li>Applied class balancing to handle imbalanced dataset</li>
+                            <li>Created production-ready web interface for real-time predictions</li>
+                        </ul>
+                    </div>
+                    <div class="conclusion-card">
+                        <h4><i class="fas fa-chart-line"></i> Model Insights</h4>
+                        <ul>
+                            <li>Linear models (SVM, Logistic Regression) outperformed tree-based methods</li>
+                            <li>TF-IDF with trigrams effectively captured sentiment patterns</li>
+                            <li>Class weights significantly improved minority class predictions</li>
+                            <li>GridSearchCV successfully optimized hyperparameters</li>
+                            <li>High-dimensional features (40K) improved model performance</li>
+                        </ul>
+                    </div>
+                    <div class="conclusion-card">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Challenges Addressed</h4>
+                        <ul>
+                            <li>Handled non-standardized Roman Urdu spelling variations</li>
+                            <li>Processed informal language and social media text</li>
+                            <li>Managed code-mixing between English and Urdu</li>
+                            <li>Dealt with class imbalance in the dataset</li>
+                            <li>Optimized feature selection for high-dimensional data</li>
+                        </ul>
+                    </div>
+                    <div class="conclusion-card">
+                        <h4><i class="fas fa-forward"></i> Future Improvements</h4>
+                        <ul>
+                            <li>Implement deep learning models (LSTM, BERT) for comparison</li>
+                            <li>Expand dataset with more diverse Roman Urdu sources</li>
+                            <li>Add fine-grained sentiment analysis (5-point scale)</li>
+                            <li>Implement aspect-based sentiment analysis</li>
+                            <li>Deploy as scalable API service with authentication</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="final-thoughts">
+                    <h4><i class="fas fa-lightbulb"></i> Final Thoughts</h4>
+                    <p>
+                        This Roman Urdu Sentiment Analysis system demonstrates the effectiveness of traditional machine 
+                        learning approaches for sentiment classification in resource-constrained languages. The combination 
+                        of proper preprocessing, TF-IDF feature extraction, and optimized ML algorithms achieves competitive 
+                        accuracy suitable for real-world applications.
+                    </p>
+                    <p>
+                        The system can be deployed for various applications including social media monitoring, customer 
+                        feedback analysis, product review analysis, and brand reputation management for Urdu-speaking markets.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Roman Urdu Sentiment Analysis System. All rights reserved.</p>
+            <!-- <p>Built with <i class="fas fa-heart"></i> using Machine Learning</p> -->
+        </div>
+    </footer>
+
+    <script>
+        // Accuracy Comparison Chart
+        fetch('/get_model_accuracy')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('accuracyChart').getContext('2d');
+                const labels = Object.keys(data);
+                const accuracies = Object.values(data).map(acc => (acc * 100).toFixed(2));
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Accuracy (%)',
+                            data: accuracies,
+                            backgroundColor: [
+                                'rgba(74, 144, 226, 0.8)',
+                                'rgba(80, 227, 194, 0.8)',
+                                'rgba(245, 166, 35, 0.8)',
+                                'rgba(248, 113, 113, 0.8)',
+                                'rgba(168, 85, 247, 0.8)',
+                                'rgba(236, 72, 153, 0.8)'
+                            ],
+                            borderColor: [
+                                'rgba(74, 144, 226, 1)',
+                                'rgba(80, 227, 194, 1)',
+                                'rgba(245, 166, 35, 1)',
+                                'rgba(248, 113, 113, 1)',
+                                'rgba(168, 85, 247, 1)',
+                                'rgba(236, 72, 153, 1)'
+                            ],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Model Accuracy Comparison',
+                                font: {
+                                    size: 18,
+                                    weight: 'bold'
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return 'Accuracy: ' + context.parsed.y + '%';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Accuracy (%)',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold'
+                                    }
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Models',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>
+

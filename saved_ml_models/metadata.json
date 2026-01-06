@@ -1,0 +1,11 @@
+{
+    "best_model": "SVM",
+    "accuracy": 0.7442114858705561,
+    "all_results": {
+        "Logistic Regression": 0.7367365542388332,
+        "SVM": 0.7442114858705561,
+        "Naive Bayes": 0.7257976298997265,
+        "Decision Tree": 0.6495897903372835,
+        "Random Forest": 0.7197812215132179
+    }
+}

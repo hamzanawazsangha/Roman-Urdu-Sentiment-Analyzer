@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roman Urdu Sentiment Analysis - Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-comments"></i>
+                <span>Roman Urdu Sentiment Analyzer</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/prediction">Prediction</a></li>
+                <li><a href="/documentation">Documentation</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">Roman Urdu</span><br>
+                    Sentiment Analysis System
+                </h1>
+                <p class="hero-subtitle">
+                    State-of-the-art machine learning models for analyzing sentiments in Roman Urdu text
+                </p>
+                <div class="hero-buttons">
+                    <a href="/prediction" class="btn btn-primary">
+                        <i class="fas fa-magic"></i> Try Prediction
+                    </a>
+                    <a href="/documentation" class="btn btn-secondary">
+                        <i class="fas fa-book"></i> View Documentation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>{{ best_accuracy }}%</h3>
+                        <p>Best Model Accuracy</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>5</h3>
+                        <p>ML Models Trained</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>{{ best_model }}</h3>
+                        <p>Best Performing Model</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>3 Classes</h3>
+                        <p>Sentiment Categories</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">System Overview</h2>
+            <p class="section-subtitle">Comprehensive sentiment analysis powered by multiple machine learning algorithms</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon positive">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <h3>Positive Sentiment</h3>
+                    <p>Detects positive emotions and opinions expressed in Roman Urdu text with high accuracy</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon neutral">
+                        <i class="fas fa-meh"></i>
+                    </div>
+                    <h3>Neutral Sentiment</h3>
+                    <p>Identifies neutral or objective statements without strong emotional content</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon negative">
+                        <i class="fas fa-frown"></i>
+                    </div>
+                    <h3>Negative Sentiment</h3>
+                    <p>Recognizes negative emotions, criticism, and unfavorable opinions in text</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Models Section -->
+    <section class="models-section">
+        <div class="container">
+            <h2 class="section-title">Available Models</h2>
+            <p class="section-subtitle">Choose from 5 different machine learning algorithms</p>
+            
+            <div class="models-grid">
+                <div class="model-card">
+                    <div class="model-header">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Logistic Regression</h3>
+                    </div>
+                    <p>Linear model for binary and multiclass classification with regularization</p>
+                </div>
+                <div class="model-card best-model">
+                    <div class="model-badge">Best Model</div>
+                    <div class="model-header">
+                        <i class="fas fa-vector-square"></i>
+                        <h3>SVM</h3>
+                    </div>
+                    <p>Support Vector Machine with optimized hyperplanes for maximum margin classification</p>
+                </div>
+                <div class="model-card">
+                    <div class="model-header">
+                        <i class="fas fa-calculator"></i>
+                        <h3>Naive Bayes</h3>
+                    </div>
+                    <p>Probabilistic classifier based on Bayes' theorem with independence assumptions</p>
+                </div>
+                <div class="model-card">
+                    <div class="model-header">
+                        <i class="fas fa-project-diagram"></i>
+                        <h3>Decision Tree</h3>
+                    </div>
+                    <p>Tree-based model that learns decision rules from training data</p>
+                </div>
+                <div class="model-card">
+                    <div class="model-header">
+                        <i class="fas fa-tree"></i>
+                        <h3>Random Forest</h3>
+                    </div>
+                    <p>Ensemble method combining multiple decision trees for improved accuracy</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section class="tech-section">
+        <div class="container">
+            <h2 class="section-title">Technology Stack</h2>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <i class="fab fa-python"></i>
+                    <span>Python</span>
+                </div>
+                <div class="tech-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg" alt="Scikit-learn" class="tech-logo">
+                    <span>Scikit-learn</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-flask"></i>
+                    <span>Flask</span>
+                </div>
+                <div class="tech-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Pandas_logo.svg" alt="Pandas" class="tech-logo">
+                    <span>Pandas</span>
+                </div>
+                <div class="tech-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/NumPy_logo_2020.svg" alt="NumPy" class="tech-logo">
+                    <span>NumPy</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-database"></i>
+                    <span>TF-IDF</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Analyze Sentiments?</h2>
+            <p>Start making predictions with our trained models</p>
+            <a href="/prediction" class="btn btn-primary btn-large">
+                <i class="fas fa-rocket"></i> Get Started
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Roman Urdu Sentiment Analysis System. All rights reserved.</p>
+            <!-- <p>Built with <i class="fas fa-heart"></i> using Machine Learning</p> -->
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
+

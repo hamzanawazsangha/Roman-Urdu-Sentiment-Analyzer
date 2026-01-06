@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Prediction - Roman Urdu Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-comments"></i>
+                <span>Roman Urdu Sentiment Analyzer</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/prediction" class="active">Prediction</a></li>
+                <li><a href="/documentation">Documentation</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Prediction Section -->
+    <section class="prediction-section">
+        <div class="container">
+            <h1 class="section-title">Sentiment Prediction</h1>
+            <p class="section-subtitle">Enter Roman Urdu text and select a model to analyze sentiment</p>
+
+            <div class="prediction-container">
+                <!-- Input Card -->
+                <div class="prediction-input-card">
+                    <h2><i class="fas fa-edit"></i> Input Text</h2>
+                    
+                    <div class="form-group">
+                        <label for="model-select">Select Model:</label>
+                        <select id="model-select" class="form-control">
+                            {% for model_data in model_info %}
+                                <option value="{{ model_data.name }}" 
+                                        {% if model_data.name == best_model %}selected{% endif %}
+                                        {% if not model_data.available %}disabled{% endif %}>
+                                    {{ model_data.name }}{% if model_data.name == best_model %} (Best Model){% endif %}{% if not model_data.available %} - Unavailable{% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        {% if failed_models %}
+                        <small class="model-note">
+                            <i class="fas fa-info-circle"></i> 
+                            {{ failed_models|length }} model(s) unavailable due to version compatibility
+                        </small>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="text-input">Enter Roman Urdu Text:</label>
+                        <textarea 
+                            id="text-input" 
+                            class="form-control" 
+                            rows="6" 
+                            placeholder="Example: yeh movie bohat achi hai, mujhe bohat pasand ayi..."></textarea>
+                        <div class="char-count">
+                            <span id="char-count">0</span> characters
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button id="predict-btn" class="btn btn-primary btn-large">
+                            <i class="fas fa-magic"></i> Analyze Sentiment
+                        </button>
+                        <button id="clear-btn" class="btn btn-secondary btn-large">
+                            <i class="fas fa-eraser"></i> Clear
+                        </button>
+                    </div>
+
+                    <!-- Example Texts -->
+                    <div class="examples-section">
+                        <h3><i class="fas fa-lightbulb"></i> Try Examples:</h3>
+                        <div class="examples-grid">
+                            <button class="example-btn" data-text="yeh mobile bohat acha hai, mujhe bohat pasand aaya">
+                                <i class="fas fa-smile text-positive"></i> Positive Example
+                            </button>
+                            <button class="example-btn" data-text="mausam theek hai, na zyada garmi na sardi">
+                                <i class="fas fa-meh text-neutral"></i> Neutral Example
+                            </button>
+                            <button class="example-btn" data-text="yeh service bohat buri hai, bilkul kharab experience">
+                                <i class="fas fa-frown text-negative"></i> Negative Example
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Card -->
+                <div class="prediction-result-card" id="result-card" style="display: none;">
+                    <h2><i class="fas fa-chart-pie"></i> Prediction Results</h2>
+                    
+                    <div class="result-content">
+                        <div class="sentiment-display" id="sentiment-display">
+                            <div class="sentiment-icon" id="sentiment-icon">
+                                <i class="fas fa-smile"></i>
+                            </div>
+                            <h3 id="sentiment-text">Positive</h3>
+                        </div>
+
+                        <div class="confidence-section" id="confidence-section">
+                            <div class="confidence-label">
+                                <span>Confidence Score</span>
+                                <span id="confidence-value">95%</span>
+                            </div>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" id="confidence-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <span class="detail-label"><i class="fas fa-robot"></i> Model Used:</span>
+                                <span class="detail-value" id="model-used">SVM</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label"><i class="fas fa-broom"></i> Cleaned Text:</span>
+                                <span class="detail-value" id="cleaned-text">...</span>
+                            </div>
+                        </div>
+
+                        <div class="sentiment-info">
+                            <h4><i class="fas fa-info-circle"></i> Sentiment Interpretation</h4>
+                            <p id="sentiment-description">
+                                This text expresses a positive sentiment.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading Spinner -->
+                <div class="loading-spinner" id="loading-spinner" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Analyzing sentiment...</p>
+                </div>
+
+                <!-- Error Message -->
+                <div class="error-message" id="error-message" style="display: none;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p id="error-text">An error occurred</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Input Text</h3>
+                    <p>Enter your Roman Urdu text or try one of the examples</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Text Preprocessing</h3>
+                    <p>Text is cleaned and converted to lowercase, special characters removed</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Feature Extraction</h3>
+                    <p>TF-IDF vectorization transforms text into numerical features</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Model Prediction</h3>
+                    <p>Selected ML model analyzes features and predicts sentiment</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Roman Urdu Sentiment Analysis System. All rights reserved.</p>
+            <!-- <p>Built with <i class="fas fa-heart"></i> using Machine Learning</p> -->
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        // Prediction page specific JavaScript
+        const textInput = document.getElementById('text-input');
+        const charCount = document.getElementById('char-count');
+        const predictBtn = document.getElementById('predict-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const resultCard = document.getElementById('result-card');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const errorMessage = document.getElementById('error-message');
+        const modelSelect = document.getElementById('model-select');
+
+        // Character counter
+        textInput.addEventListener('input', () => {
+            charCount.textContent = textInput.value.length;
+        });
+
+        // Clear button
+        clearBtn.addEventListener('click', () => {
+            textInput.value = '';
+            charCount.textContent = '0';
+            resultCard.style.display = 'none';
+            errorMessage.style.display = 'none';
+        });
+
+        // Example buttons
+        document.querySelectorAll('.example-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const exampleText = btn.getAttribute('data-text');
+                textInput.value = exampleText;
+                charCount.textContent = exampleText.length;
+            });
+        });
+
+        // Predict button
+        predictBtn.addEventListener('click', async () => {
+            const text = textInput.value.trim();
+            const model = modelSelect.value;
+
+            if (!text) {
+                showError('Please enter some text to analyze');
+                return;
+            }
+
+            // Show loading
+            loadingSpinner.style.display = 'block';
+            resultCard.style.display = 'none';
+            errorMessage.style.display = 'none';
+            predictBtn.disabled = true;
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text, model })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayResult(data);
+                } else {
+                    showError(data.error || 'An error occurred');
+                }
+            } catch (error) {
+                showError('Network error. Please try again.');
+            } finally {
+                loadingSpinner.style.display = 'none';
+                predictBtn.disabled = false;
+            }
+        });
+
+        function displayResult(data) {
+            const sentiment = data.sentiment;
+            const confidence = data.confidence;
+            const modelUsed = data.model_used;
+            const cleanedText = data.cleaned_text;
+
+            // Update sentiment display
+            const sentimentIcon = document.getElementById('sentiment-icon');
+            const sentimentText = document.getElementById('sentiment-text');
+            const sentimentDisplay = document.getElementById('sentiment-display');
+            const sentimentDescription = document.getElementById('sentiment-description');
+
+            sentimentText.textContent = sentiment;
+            
+            // Set icon and color based on sentiment
+            sentimentDisplay.className = 'sentiment-display';
+            if (sentiment === 'Positive') {
+                sentimentIcon.innerHTML = '<i class="fas fa-smile"></i>';
+                sentimentDisplay.classList.add('positive');
+                sentimentDescription.textContent = 'This text expresses a positive sentiment, indicating favorable opinions, satisfaction, or happiness.';
+            } else if (sentiment === 'Negative') {
+                sentimentIcon.innerHTML = '<i class="fas fa-frown"></i>';
+                sentimentDisplay.classList.add('negative');
+                sentimentDescription.textContent = 'This text expresses a negative sentiment, indicating dissatisfaction, criticism, or unfavorable opinions.';
+            } else {
+                sentimentIcon.innerHTML = '<i class="fas fa-meh"></i>';
+                sentimentDisplay.classList.add('neutral');
+                sentimentDescription.textContent = 'This text expresses a neutral sentiment, indicating objective statements without strong emotions.';
+            }
+
+            // Update confidence if available
+            const confidenceSection = document.getElementById('confidence-section');
+            if (confidence !== null) {
+                confidenceSection.style.display = 'block';
+                document.getElementById('confidence-value').textContent = confidence + '%';
+                document.getElementById('confidence-fill').style.width = confidence + '%';
+            } else {
+                confidenceSection.style.display = 'none';
+            }
+
+            // Update details
+            document.getElementById('model-used').textContent = modelUsed;
+            document.getElementById('cleaned-text').textContent = cleanedText;
+
+            // Show result card
+            resultCard.style.display = 'block';
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function showError(message) {
+            errorMessage.style.display = 'block';
+            document.getElementById('error-text').textContent = message;
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
+
